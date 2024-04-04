@@ -15,10 +15,18 @@ class Student:
                 mentor.grades[course] = [grade]
         else:
             return 'Ошибка'
-    def __str__(self):
-        return f'Имя: {self.name} Фамилия: {self.surname} Средняя оценка за домашнее задание: {sum((self.grades).get('Python'))/len((self.grades).get('Python'))} Курсы в процессе изучения: {', '.join(self.courses_in_progress)} Завершенные курсы: {', '.join(self.finished_courses)}'     
 
-        
+    def _grad_(self, grad):
+        grad = (sum((self.grades).get('Python'))) / (len((self.grades).get('Python')))
+        return grad
+    
+    def __lt__(self, other):
+        return self.grad < other.grad
+                 
+    def __str__(self):
+        return f'Имя: {self.name} Фамилия: {self.surname} Средняя оценка за домашнее задание: {self._grad_} Курсы в процессе изучения: {', '.join(self.courses_in_progress)} Завершенные курсы: {', '.join(self.finished_courses)}'     
+    
+      
 
 class Mentor:
     def __init__(self, name, surname):
@@ -31,8 +39,16 @@ class Lecturer (Mentor):
     def __init__(self, name, surname):
         super().__init__(name, surname)
         self.grades = {}
+
+    def _grad_(self, grad):
+        grad = (sum((self.grades).get('Python'))) / (len((self.grades).get('Python')))
+        return grad  
+    
+    def __lt__(self, other):
+        return self.grad < other.grad 
+     
     def __str__(self):
-        return f'Имя: {self.name} Фамилия: {self.surname} Средняя оценка лекций: {sum((self.grades).get('Python'))/len((self.grades).get('Python'))}' 
+        return f'Имя: {self.name} Фамилия: {self.surname} Средняя оценка лекций: {self._grad_}' 
 
 
 
@@ -47,7 +63,9 @@ class Reviewer (Mentor):
             return 'Ошибка'
     def __str__(self):
         return f'Имя: {self.name} Фамилия: {self.surname}'    
- 
+
+
+
 best_student = Student('Ruoy', 'Eman', 'your_gender')
 best_student.courses_in_progress += ['Python', 'Git']
 best_student.finished_courses += ['Введение в программирование']
@@ -76,7 +94,7 @@ cool_mentor.rate_hw(best_student, 'Python', 9)
 
 
 
-print(best_student.grades)
+# print(best_student.grades)
 # print(coolll_mentor.grades)
 print(cool_mentor)
 print(best_student)
